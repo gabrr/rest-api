@@ -19,6 +19,7 @@ app.get('/posts', (req, res) => {
     res.send("We are on posts");
 })
 
+//just to test github
 
 // connecting to the DB
 mongoose.connect(process.env.DB_CONNECTION,
