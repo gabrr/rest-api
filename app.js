@@ -7,6 +7,11 @@ require('dotenv/config');
 // app.use('/posts', () => {
 //   console.log("middleware running");
 // });
+const postsRoute = require('./routes/posts');
+//importing routers
+
+app.use('/posts', postsRoute);
+//first parameter sets the route, second sets what will load.
 
 //Routes
 app.get('/', (req, res) => {
@@ -15,9 +20,6 @@ app.get('/', (req, res) => {
 //along with get, we still have POST, DELETE, PATCH(updating).
 
 
-app.get('/posts', (req, res) => {
-    res.send("We are on posts");
-});
 
 //just to test github
 
