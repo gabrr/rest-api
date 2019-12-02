@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Forms and Fetching Content</title>
+</head>
+
+<body>
+    <div>
+        <div class="data-place" dir="ltr"></div>
+        <div class="fieldarea">
+            <form>
+                <label for="text">text</label>
+                <input autofocus oninput="wordsUppercase(this)" type="text" autocomplete="username" id="text">
+                <label for="date">date</label>
+                <input type="date" name="date" id="date">
+                <label for="file">file</label>
+                <input type="file" name="file" id="file">
+                <label for="search">search</label>
+                <input type="search" name="search" id="search">
+                <label for="email">email</label>
+                <input type="email" name="email" id="email">
+                <label for="pass">pass</label>
+                <input type="password" name="pass" id="pass" required>
+                <label for="range">range</label>
+                <div id="range-value">50</div>
+                <input type="range" oninput="setRange(this)" value="50" max="100" name="range" id="range">
+                <input type="image" src="#" alt="image">
+                <label for="tel"></label>
+                <input type="tel" name="tel" id="tel">
+                <input type="week" name="week" id="week">
+                <label for="url">url</label>
+                <input type="url" name="url" id="url">
+                <label><input type="radio" name="indoor-outdoor"> Indoor</label>
+                <label><input type="radio" name="indoor-outdoor"> Outdoor</label><br>
+
+                <input type="submit" value="submit">
+            </form>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    function setRange(x) {
+        let value = document.getElementById("range-value");
+        value.innerHTML = x.value;
+        value.style.transform = `translateX(${-x.value + 0.95}%)`;
+        value.style.left = x.value + "%"
+
+    }
+</script>
+
+
+<!-- an http request using Jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    const fetcher = (query) => {
+        $.ajax({
+            url: `https://restcountries.eu/rest/v2/name/${query}`,
+            success: function(countries) {
+                for (country of countries) {
+                    console.log(country.flag)
+                    document.querySelector(".data-place").innerHTML += `<div class="country" style="background-image: url('${country.flag}'); background-size: cover; background-repeat: no-repeat"><p>${country.name}</p></div>`;
+                }
+            },
+            error: function(xhr) {
+                console.log(xhr.status, "something wrong happened :(")
+            }
+        });
+    }
+
+    fetcher("us")
+</script>
+
+
+<!-- <script>
+    // to make first letter of every word capital
+    function test(words) {
+        let upper = words.map(x => {
+            return x[0].toUpperCase() + x.slice(1);
+        });
+        return upper;
+    }
+
+    function wordsUppercase(x) {
+        let regex = /\w+/g;
+        let res = x.value.match(regex);
+        document.getElementById("text").value = test(res).join(" ");
+    }
+</script> -->
+
+<!-- <script>
+    //fetching  countries from an API
+    fetch("https://restcountries.eu/rest/v2/name/us")
+        .then(data => data.json())
+        .then(countries => {
+            if (countries.status) {
+                console.log("something wrong happened :(")
+            } else {
+                for (index in countries) {
+                    document.querySelector(".data-place").innerHTML += `<div class="country" style="background-color: rgba(${200 - index * 10}, 0, ${10*index}, 0.${60-index})">${countries[index].name}</div>`;
+                }
+            }
+        })
+        .catch(err => console.log(err))
+
+    //the difference between PUT and POST is: 
+    //PUT will update a document if it alredy exists since when making a call it is required to set the id.
+    //POST will add a document even though is the same.
+</script> -->
+
+</html>

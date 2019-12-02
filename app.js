@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const path = require('path');
 require('dotenv/config');
 
 //middlewares
@@ -10,8 +11,11 @@ require('dotenv/config');
 
 //Routes
 app.get('/', (req, res) => {
-    res.send("We are on home");
+    res.sendFile(path.join(__dirname + '/index.html'))
+
 });
+
+app.use(express.static(__dirname + '/'));
 //along with get, we still have POST, DELETE, PATCH(updating).
 
 
@@ -21,12 +25,11 @@ app.get('/posts', (req, res) => {
 
 
 // connecting to the DB
-mongoose.connect(process.env.DB_CONNECTION,
-    { useNewUrlParser: true },
-    () => {
-        console.log("connected to the MongoDB");
-    });
+// mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true },
+//     () => {
+//         console.log("connected to the MongoDB");
+//     });
 
 
 //how do we start listening to the server
-app.listen(3000);
+app.listen(3001);
